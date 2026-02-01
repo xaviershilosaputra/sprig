@@ -3,9 +3,40 @@ First time? Check out the tutorial game:
 https://sprig.hackclub.com/gallery/getting_started
 
 @title: LOCKSTEP
+@description: LOCKSTEP is a grid-based puzzle game with a Solid Echo that mimics your every move. It won't hurt you, but it will block your path.
 @author: Xavier Shilo Saputra
-@tags: []
+@tags: ['maze', 'puzzle', 'endless']
 @addedOn: 2026-02-01
+
+STORY:
+The Mirror Catacombs run deep,
+Where ancient secrets shadows keep.
+Sir Alistair, by curse confined,
+To a spectral Echo, fate is bound.
+
+It mimics every step you take,
+A deadly dance you must forsake.
+But here’s the trick to break the trance:
+Use walls to halt your own advance.
+
+While you stand still against the stone,
+The Echo moves on, all alone.
+De-sync the steps, the vault is near,
+But touch the ghost, and end in fear.
+
+CONTROLS:
+- WASD: Move Sir Alistair
+- I: Start Story / Confirm Selection / Retry Level
+- J: Enter Level Select
+- K: Enter Infinite Mode
+- L: Toggle How to Play / Return to Menu
+
+OBJECTIVE:
+- Reach the Treasure Chest (g) in each level.
+- The Echo (c) is a solid object. You cannot walk through it.
+- If you get stuck/locked, press I to retry.
+
+Have Fun!!!
 */
 
 const PLAYER = "p";
@@ -662,7 +693,7 @@ function loadLevel() {
       }
     }
     setMap(levels[currentLevelIdx]);
-    addText(`Lvl ${currentLevelIdx + 1}`, {x: 1, y: 14, color: color`2`});
+    addText(`Lvl ${currentLevelIdx + 1}`, {x: 1, y: 14, color: color`3`});
     state = "PLAYING";
   }
 }
@@ -709,8 +740,8 @@ function drawGuide() {
 
   addText("GOAL:", { y: 9, color: color`L` });
   addText("Reach the Treasure", { y: 10, color: color`1` });
-  addText("The Ghost mimics", { y: 11, color: color`1` });
-  addText("every step you take", { y: 12, color: color`1` });
+  addText("The Echo is solid!", { y: 11, color: color`1` });
+  addText("It blocks your path", { y: 12, color: color`1` });
   
   addText("PRESS I TO START", { y: 14, color: color`3` });
 }
@@ -730,11 +761,6 @@ wwwwwwwwww`);
   addText("Press K for Menu", { y: 8, color: color`7` });
 }
 
-function drawGameOver() {
-  addText("CAUGHT!", { y: 6, color: color`L` });
-  addText("Press I to Retry", { y: 8, color: color`1` });
-}
-
 function playerTurn(dx, dy) {
   const p = getFirst(PLAYER);
   const c = getFirst(CHASER);
@@ -743,15 +769,9 @@ function playerTurn(dx, dy) {
   const targetX = p.x + dx;
   const targetY = p.y + dy;
   
-  if (!isWall(targetX, targetY)) {
+  if (!isWall(targetX, targetY) && !(targetX === c.x && targetY === c.y)) {
     p.x = targetX;
     p.y = targetY;
-  }
-
-  if (p.x === c.x && p.y === c.y) {
-    state = "GAMEOVER";
-    drawGameOver();
-    return;
   }
 
   let dxC = 0;
@@ -769,15 +789,10 @@ function playerTurn(dx, dy) {
   const cTargetX = c.x + dxC;
   const cTargetY = c.y + dyC;
   
-  if (!isWall(cTargetX, cTargetY)) {
+  if (!isWall(cTargetX, cTargetY) && !(cTargetX === p.x && cTargetY === p.y)) {
     c.x = cTargetX;
     c.y = cTargetY;
   } 
-
-  if (p.x === c.x && p.y === c.y) {
-    state = "GAMEOVER";
-    drawGameOver();
-  }
   
   const onGoal = tilesWith(PLAYER, GOAL);
   if (onGoal.length > 0) {
@@ -796,7 +811,8 @@ onInput("i", () => {
   } else if (state === "SELECTING") {
     state = "PLAYING";
     loadLevel();
-  } else if (state === "PLAYING" || state === "GAMEOVER") {
+  } else if (state === "PLAYING") {
+    // Allows retry if stuck
     loadLevel(); 
   }
 });
