@@ -5,7 +5,7 @@ https://sprig.hackclub.com/gallery/getting_started
 @title: LOCKSTEP
 @description: LOCKSTEP is a grid-based puzzle game with a Solid Echo that mimics your every move. It won't hurt you, but it will block your path.
 @author: Xavier Shilo Saputra
-@tags: ['maze', 'puzzle', 'endless']
+@tags: ['maze', 'puzzle', "logic", "strategy", 'endless']
 @addedOn: 2026-02-01
 
 STORY:
