@@ -646,9 +646,9 @@ function loadLevel() {
     state = "PLAYING";
   } else if (state === "SELECTING") {
     setMap(levels[currentLevelIdx]);
-    addText(`Level ${currentLevelIdx + 1}`, {x: 1, y: 1, color: color`0` });
-    addText("< A | D >", {x: 1, y: 13, color: color`L` });
-    addText("Press I to Start", {x: 1, y: 15, color: color`3` });
+    addText(`Level ${currentLevelIdx + 1}`, {x: 1, y: 1, color: color`4` });
+    addText("A <> D", {x: 1, y: 3, color: color`9` });
+    addText("Press I to Start", {x: 2, y: 14, color: color`3` });
   } else {
     if (currentLevelIdx >= levels.length) {
       if (gameMode === "STORY") {
@@ -731,7 +731,7 @@ wwwwwwwwww`);
 }
 
 function drawGameOver() {
-  addText("CAUGHT!", { y: 6, color: color`2` });
+  addText("CAUGHT!", { y: 6, color: color`L` });
   addText("Press I to Retry", { y: 8, color: color`1` });
 }
 
